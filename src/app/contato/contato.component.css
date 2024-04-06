@@ -11,6 +11,10 @@
     color: red;
 }
 
+.aviso-sucesso {
+    color: green;
+}
+
 mat-icon {
     margin-right: 5px;
 }
