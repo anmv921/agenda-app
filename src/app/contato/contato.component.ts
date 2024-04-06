@@ -12,8 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ContatoComponent implements OnInit {
 
   formularioFG!: FormGroup;
-
   arr_contatos: Contato[] = [];
+  arr_colunas = ['id', 'nome', 'email', 'favorito'];
 
   constructor(
     private contatoService: ContatoService,
