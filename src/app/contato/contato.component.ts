@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Contato } from './contato';
 import { ContatoService } from '../contato.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -40,6 +41,14 @@ export class ContatoComponent implements OnInit {
     });
   }
 
+  favoritar(in_contato: Contato) {
+    this.contatoService.favourite(in_contato)
+    .subscribe(
+      response => {
+        in_contato.favorito = !in_contato.favorito;
+      });
+  }
+
   submit() {
     this.boolCriacaoContactoOK = false;
     if (this.formularioFG.valid) {
@@ -47,9 +56,12 @@ export class ContatoComponent implements OnInit {
       const contato: Contato = new Contato(formValues.nome, formValues.email);
       this.contatoService.save(contato).subscribe({ 
         next: respostaContato => {
-          this.arr_contatos.push(respostaContato);
-          this.listarContatos();
+          //this.arr_contatos.push(respostaContato);
+
           this.boolCriacaoContactoOK = true;
+
+          let arr_temp: Contato[] = [ ...this.arr_contatos, respostaContato];
+          this.arr_contatos = arr_temp;
         },
         error: err => {
           alert(err);

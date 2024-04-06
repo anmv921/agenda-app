@@ -7,6 +7,6 @@ export class Contato {
     constructor(in_nome: string, in_email: string) {
         this.nome = in_nome;
         this.email = in_email;
-        this.favorito = true;
+        this.favorito = false;
     }
 }
