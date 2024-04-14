@@ -14,7 +14,7 @@ export class ContatoComponent implements OnInit {
 
   formularioFG!: FormGroup;
   arr_contatos: Contato[] = [];
-  arr_colunas = ['id', 'nome', 'email', 'favorito'];
+  arr_colunas = ['foto', 'id', 'nome', 'email', 'favorito'];
   boolCriacaoContactoOK: boolean = false;
 
   constructor(
@@ -69,5 +69,24 @@ export class ContatoComponent implements OnInit {
       }); // End of subscribe
     } // End if valid
   } // End submit
+
+  uploadFoto(event: any, contato: Contato) {
+    const files = event.target.files;
+
+    if (files) {
+      const foto = files[0];
+      const formData: FormData = new FormData();
+      formData.append("foto", foto);
+      this.contatoService
+        .upload(contato, formData) 
+        .subscribe({next: response => {
+          this.listarContatos();
+        },
+        error(err) {
+          console.log(err);
+        },
+    })
+    }
+  }
 
 } // End class ContatoComponent
