@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ContatoDetalheComponent } from '../contato-detalhe/contato-detalhe.component';
 import { DOCUMENT } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ContatoComponent implements OnInit {
   boolCriacaoContactoOK: boolean = false;
   totalElementos = 0;
   pagina = 0;
-  tamanho = 2;
+  tamanho = 5;
   pageSizeOptions: number[] = [2, 5, 10, 25, 100];
   boolMostrarAvisoNome: boolean = false;
   boolMostrarAvisoEmailObrigatorio = false;
@@ -30,7 +31,8 @@ export class ContatoComponent implements OnInit {
   constructor(
     private contatoService: ContatoService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -95,8 +97,11 @@ export class ContatoComponent implements OnInit {
 
           this.boolCriacaoContactoOK = true;
 
-          let arr_temp: Contato[] = [ ...this.arr_contatos, respostaContato];
-          this.arr_contatos = arr_temp;
+          this.listarContatos();
+
+          this.snackBar.open("Contacto adicionado com sucesso!", "OK", {duration: 2000});
+
+          this.formularioFG.reset();
         },
         error: err => {
           alert(err);
